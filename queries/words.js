@@ -26,13 +26,28 @@ module.exports = {
         previous.position = positions[i]
       }
 
-      console.log(query)
-
       db.query(query + " LIMIT 50", function (err, result) {
         if (err) throw err
         resolve(result)
       })
     })
+  },
+  async getWord(params) {
+    return new Promise((resolve, reject) => {
+      let query = "SELECT * FROM sys.words WHERE label = '" + params + "'"
+      db.query(query, function (err, result) {
+        if (err) throw err
+        resolve(result)
+      })
+    })
+  },
+  async addWord(params) {
+    return new Promise((resolve, reject) => {
+      let query = "INSERT INTO sys.words_to_validate (label) VALUES (?)"
+      db.query(query, params.label, function (err, result) {
+        if (err) throw err
+        resolve(result)
+      })
+    })
   }
-
 } 

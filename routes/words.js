@@ -13,4 +13,26 @@ router.get('/', async (req, res, next) => {
   }
 })
 
+/* GET word by label. */
+router.get('/:label', async (req, res, next) => {
+  try {
+    const all = await words.getWord(req.params.label)
+    res.json(all)
+  } catch (error) {
+    next(error)
+  }
+})
+
+/* POST a new word. */
+router.post('/', function (req, res) {
+  try {
+    words.addWord(req.query)
+    res.status(201).json({
+      message: 'Word added'
+    })
+  } catch (error) {
+    next(error)
+  }
+})
+
 module.exports = router
